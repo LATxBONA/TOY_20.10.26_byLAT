@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dành bạn, cả một vườn thương - 20/10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            box-sizing: border-box;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #e6f4f1;
+        }
+        .font-poetic {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .font-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Floating Tooltip Bubble */
+        .flower-tooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 40;
+            transform: translate(-50%, -100%);
+            animation: floatUpFade 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes floatUpFade {
+            0% { opacity: 0; transform: translate(-50%, -60%) scale(0.8); }
+            15% { opacity: 1; transform: translate(-50%, -110%) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, -140%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -165%) scale(0.95); }
+        }
+
+        /* Envelope Styles */
+        .envelope-scene {
+            position: relative;
+            width: 340px;
+            height: 250px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .envelope-scene:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .env-flap-open {
+            position: absolute;
+            top: -92px;
+            left: 0;
+            width: 100%;
+            height: 98px;
+            background: #cf6a68;
+            clip-path: polygon(0 100%, 45% 6%, 50% 0%, 55% 6%, 100% 100%);
+            z-index: 1;
+            border-radius: 12px 12px 0 0;
+        }
+        .env-back {
+            position: absolute;
+            inset: 0;
+            background: #c86462;
+            border-radius: 0 0 6px 6px;
+            z-index: 1;
+            box-shadow: 0 18px 40px rgba(180, 85, 85, 0.25);
+        }
+        .env-card {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            top: -54px;
+            height: 235px;
+            background: #ede6b9;
+            z-index: 2;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .envelope-scene:hover .env-card,
+        .envelope-scene.card-pulled .env-card {
+            transform: translateY(-38px);
+        }
+        .env-card-dotted {
+            width: 100%;
+            height: 100%;
+            border: 3.5px dotted #0f2c4c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+            position: relative;
+        }
+        .env-pocket-left {
+            position: absolute;
+            inset: 0;
+            background: #f6a494;
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+            z-index: 4;
+        }
+        .env-pocket-right {
+            position: absolute;
+            inset: 0;
+            background: #f29086;
+            clip-path: polygon(100% 0, 45% 55%, 100% 100%);
+            z-index: 3;
+        }
+        .env-bottom-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e06d73;
+            z-index: 5;
+        }
+        .env-ground-shadow {
+            width: 280px;
+            height: 22px;
+            background: #a59394;
+            border-radius: 50%;
+            margin: 34px auto 0;
+            opacity: 0.85;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        .envelope-scene:hover + .env-ground-shadow {
+            transform: scale(0.9);
+            opacity: 0.65;
+        }
+
+        .card-mini-heart {
+            position: absolute;
+            color: #ef3327;
+            animation: floatHeart 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 6;
+        }
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-7px) scale(1.08); }
+        }
+
+        .letter-paper {
+            background-color: #fbf7ec;
+            background-image: radial-gradient(#e5dec9 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #f29086;
+            border-radius: 99px;
+        }
+
+        @keyframes seedPop {
+            0% { transform: scale(0.5); }
+            60% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+        .seed-collected {
+            animation: seedPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+    </style>
+</head>
+<body class="relative w-full h-full select-none overflow-hidden">
+    <audio id="myAudio" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <canvas id="gardenCanvas" class="block w-full h-full cursor-pointer"></canvas>
+
+    <!-- Header UI -->
+    <div class="fixed top-5 left-5 sm:top-8 sm:left-10 z-20 pointer-events-none">
+        <h1 class="font-poetic italic text-2xl sm:text-4xl text-slate-700/90 tracking-wide drop-shadow-sm">
+            Dành bạn, cả một vườn thương.
+        </h1>
+        <div id="subInstructionContainer" class="pointer-events-auto mt-1">
+            <p id="subInstruction" class="text-xs sm:text-sm text-slate-600/80 font-medium flex items-center gap-1.5">
+                <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                Hãy chạm vào các đóa hoa và tìm 3 bông hoa có đom đóm lấp lánh...
+            </p>
+        </div>
+    </div>
+
+    <!-- Controls UI -->
+    <div class="fixed top-4 right-4 sm:top-7 sm:right-8 z-30 flex items-center gap-2.5 sm:gap-3">
+        <div id="questPill" onclick="handleQuestPillClick()" class="bg-white/75 hover:bg-white backdrop-blur-md border border-pink-200/80 shadow-lg shadow-pink-500/5 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 flex items-center gap-2.5 transition-all cursor-pointer pointer-events-auto">
+            <span class="text-xs sm:text-sm font-semibold text-rose-800 whitespace-nowrap">Hạt giống thương:</span>
+            <div class="flex items-center gap-1.5" id="seedSlots">
+                <div id="seed-0" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-rose-100/80 border border-rose-300 flex items-center justify-center text-xs text-rose-300 transition-all" title="Hoa Bí Ẩn 1">❀</div>
+                <div id="seed-1" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-rose-100/80 border border-rose-300 flex items-center justify-center text-xs text-rose-300 transition-all" title="Hoa Bí Ẩn 2">❀</div>
+                <div id="seed-2" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-rose-100/80 border border-rose-300 flex items-center justify-center text-xs text-rose-300 transition-all" title="Hoa Bí Ẩn 3">❀</div>
+            </div>
+            <span id="seedCountText" class="text-xs font-bold text-rose-600 ml-0.5">0/3</span>
+        </div>
+
+        <button id="hintBtn" onclick="triggerHint()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/75 hover:bg-white backdrop-blur-md border border-amber-200 shadow-md flex items-center justify-center text-amber-600 transition active:scale-95 cursor-pointer pointer-events-auto" title="Gợi ý vị trí hoa đặc biệt">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+        </button>
+
+        <button id="soundBtn" onclick="toggleSound()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/75 hover:bg-white backdrop-blur-md border border-pink-200 shadow-md flex items-center justify-center text-rose-600 transition active:scale-95 cursor-pointer pointer-events-auto" title="Bật/Tắt âm thanh">
+            <span id="soundIcon">🔊</span>
+        </button>
+    </div>
+
+    <!-- Bottom Caption -->
+    <div class="fixed bottom-5 sm:bottom-7 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-center w-11/12 max-w-xl">
+        <p id="bottomCaption" class="font-poetic italic text-lg sm:text-2xl text-slate-800/85 tracking-wide drop-shadow-[0_1px_6px_rgba(255,255,255,0.9)] transition-opacity duration-500">
+            Từ một bông hoa, cả khu vườn đang thức giấc...
+        </p>
+    </div>
+
+    <div id="tooltipContainer" class="fixed inset-0 pointer-events-none z-30"></div>
+
+    <div id="miniGameModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+        <div class="bg-white/95 backdrop-blur-md border-2 border-pink-200 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative overflow-hidden animate-[seedPop_0.35s_ease-out]">
+            <div class="absolute -top-10 -right-10 w-28 h-28 bg-pink-100 rounded-full opacity-60 pointer-events-none"></div>
+            <div class="absolute -bottom-10 -left-10 w-28 h-28 bg-amber-100 rounded-full opacity-60 pointer-events-none"></div>
+
+            <div class="relative z-10">
+                <div class="flex items-center justify-between mb-3">
+                    <span id="mgBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-600">
+                        ✨ Bông Hoa Bí Ẩn #1
+                    </span>
+                    <button onclick="closeMiniGame()" class="text-slate-400 hover:text-slate-600 p-1 rounded-full cursor-pointer">
+                        ✕
+                    </button>
+                </div>
+
+                <h3 id="mgTitle" class="text-xl sm:text-2xl font-bold text-slate-800 mb-1.5 font-poetic">
+                    Đánh thức hạt giống dịu dàng
+                </h3>
+                <p id="mgDesc" class="text-xs sm:text-sm text-slate-600 mb-4">
+                    Hoàn thành thử thách nhỏ này để bông hoa nở rộ nhé!
+                </p>
+
+                <div id="mgContent" class="min-h-[210px] flex flex-col items-center justify-center bg-rose-50/70 rounded-2xl p-4 border border-rose-100 relative overflow-hidden">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="envelopeOverlay" class="fixed inset-0 z-40 hidden flex-col items-center justify-center bg-[#f9e1df]/95 backdrop-blur-md p-4 transition-opacity duration-700 overflow-hidden">
+        
+        <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
+            <path d="M -50 450 Q 120 680 320 750" fill="none" stroke="#e05a7a" stroke-width="8" stroke-dasharray="12 6" opacity="0.85" />
+            <path d="M 1050 220 Q 880 580 620 740" fill="none" stroke="#e05a7a" stroke-width="8" stroke-dasharray="12 6" opacity="0.85" />
+            <radialGradient id="envGlow" cx="50%" cy="48%" r="38%">
+                <stop offset="0%" stop-color="#c99592" stop-opacity="0.45" />
+                <stop offset="100%" stop-color="#f9e1df" stop-opacity="0" />
+            </radialGradient>
+            <circle cx="500" cy="340" r="360" fill="url(#envGlow)" />
+        </svg>
+
+        <button onclick="hideEnvelopeOverlay()" class="fixed top-5 left-5 z-50 bg-white/80 hover:bg-white text-rose-700 text-xs sm:text-sm font-semibold px-4 py-2 rounded-full shadow-md border border-rose-200 flex items-center gap-1.5 transition cursor-pointer">
+            ← Ngắm lại vườn hoa
+        </button>
+
+        <div id="envelopeStage" class="relative z-10 flex flex-col items-center mt-14 sm:mt-16">
+            <div class="mb-14 text-center">
+                <span class="inline-block px-4 py-1 rounded-full bg-rose-200/80 text-rose-700 text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-sm animate-bounce">
+                    🎉 Bạn đã thu thập đủ 3 Hạt Giống Yêu Thương!
+                </span>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -top-32 left-1/2 -translate-x-5 -rotate-45 text-[#d95b78] font-extrabold text-3xl tracking-tighter opacity-90 pointer-events-none select-none">
+                    20/10
+                </div>
+
+                <div id="theEnvelope" onclick="openFullLetter()" class="envelope-scene">
+                    <div class="env-flap-open"></div>
+                    <div class="env-back"></div>
+
+                    <div class="card-mini-heart text-2xl" style="top: -62px; left: 145px; animation-delay: 0.2s;">❤️</div>
+                    <div class="card-mini-heart text-xl" style="top: -32px; left: 16px; animation-delay: 0.8s;">❤️</div>
+                    <div class="card-mini-heart text-lg" style="top: -8px; right: 44px; animation-delay: 1.4s;">❤️</div>
+                    <div class="card-mini-heart text-sm" style="top: 32px; left: 66px; animation-delay: 0.5s;">❤️</div>
+
+                    <div class="env-card">
+                        <div class="env-card-dotted">
+                            <div class="font-script text-[#0d3154] text-2xl sm:text-[28px] leading-tight text-center font-bold mt-1">
+                                Happy<br>Women's<br>Day!
+                            </div>
+                            <div class="mt-2 relative flex items-center justify-center">
+                                <svg class="w-12 h-12 text-[#d92323] drop-shadow-sm animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="env-pocket-right"></div>
+                    <div class="env-pocket-left"></div>
+                    <div class="env-bottom-line"></div>
+                </div>
+
+                <div class="env-ground-shadow"></div>
+            </div>
+
+            <p class="mt-6 text-rose-800 font-medium text-sm sm:text-base flex items-center gap-2 animate-pulse cursor-pointer" onclick="openFullLetter()">
+                <span>💌 Chạm vào bức thư để đọc lời nhắn dành riêng cho bạn</span>
+            </p>
+        </div>
+
+        <div id="fullLetterCard" class="hidden relative z-20 max-w-lg w-full letter-paper rounded-2xl shadow-2xl border-2 border-[#e2d6b5] p-5 sm:p-8 transition-all">
+            <div class="border-[3px] border-dotted border-[#0f2c4c]/80 rounded-xl p-5 sm:p-6 relative">
+                
+                <button onclick="backToEnvelope()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 flex items-center justify-center text-sm font-bold transition cursor-pointer" title="Thu nhỏ về phong bì">
+                    ✕
+                </button>
+
+                <div class="text-center mb-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-rose-500">Vietnamese Women's Day • 20/10</span>
+                    <h2 class="font-script text-3xl sm:text-4xl text-[#0d3154] font-bold mt-1">
+                        Happy Women's Day!
+                    </h2>
+                </div>
+
+                <div class="mb-3 font-poetic italic text-xl sm:text-2xl text-rose-800 font-semibold" id="letterRecipientDisplay">
+                    Gửi người con gái tuyệt vời,
+                </div>
+
+                <div id="letterBodyDisplay" class="font-poetic text-lg sm:text-xl text-slate-800 leading-relaxed min-h-[150px] max-h-[240px] overflow-y-auto custom-scroll pr-1 whitespace-pre-line"></div>
+
+                <div class="mt-5 text-right">
+                    <span id="letterSenderDisplay" class="font-script text-2xl sm:text-3xl text-rose-600 font-bold">
+                        — Cả một vườn thương 🌷
+                    </span>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-amber-900/10 flex flex-wrap items-center justify-between gap-2">
+                    <button onclick="celebrateFromLetter()" class="text-xs sm:text-sm px-4 py-2 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 font-semibold transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                        🎉 Tung hoa chúc mừng
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="replayTypewriter()" class="text-xs sm:text-sm px-4 py-2 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-700 font-semibold transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                            ✨ Đọc lại thư
+                        </button>
+                        <button onclick="hideEnvelopeOverlay()" class="text-xs sm:text-sm px-4 py-2 rounded-full bg-rose-500 hover:bg-rose-600 text-white font-semibold shadow-md shadow-rose-500/20 transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                            🌷 Ngắm vườn hoa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        // Thiết lập âm lượng nhạc nền (music.mp3) ở mức 50%
+        const bgAudio = document.getElementById('myAudio');
+        bgAudio.volume = 0.5;
+
+        // Tự động phát nhạc nền khi người dùng tương tác lần đầu
+        document.addEventListener('click', function() {
+            if (soundEnabled && bgAudio.paused) {
+                bgAudio.play().catch(e => {});
+            }
+        }, { once: true });
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playNote(freq = 523.25, duration = 0.7, type = 'sine', volume = 0.06) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(volume, audioCtx.currentTime + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        const pentatonicNotes = [392.00, 440.00, 493.88, 587.33, 659.25, 783.99, 880.00, 1046.50];
+
+        function playFlowerChime() {
+            const note = pentatonicNotes[Math.floor(Math.random() * pentatonicNotes.length)];
+            playNote(note, 0.9, 'sine', 0.06);
+            setTimeout(() => playNote(note * 1.5, 0.7, 'triangle', 0.03), 90);
+        }
+
+        function playSuccessChord() {
+            const chord = [523.25, 659.25, 783.99, 1046.50];
+            chord.forEach((f, idx) => {
+                setTimeout(() => playNote(f, 1.2, 'sine', 0.06), idx * 95);
+            });
+        }
+
+        function playCelebrationFanfare() {
+            const notes = [523.25, 587.33, 659.25, 783.99, 1046.50, 1318.51];
+            notes.forEach((f, idx) => {
+                setTimeout(() => playNote(f, 1.4, 'sine', 0.07), idx * 110);
+            });
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+            
+            if (soundEnabled) {
+                bgAudio.play().catch(e => {});
+                playFlowerChime();
+            } else {
+                bgAudio.pause();
+            }
+        }
+
+        const letterData = {
+            recipient: "Gửi bạn — đóa hoa dịu dàng nhất,",
+            body: "Nhân ngày Phụ nữ Việt Nam 20/10, chúc bạn luôn rạng rỡ như khu vườn mùa xuân, trong tim luôn ngập tràn nắng ấm và bình yên.\n\nCảm ơn bạn vì đã luôn dịu dàng và mang lại thật nhiều niềm vui. Dù hôm nay hay bất cứ ngày nào, mong bạn luôn được yêu thương, nâng niu và mỉm cười thật tươi nhé!",
+            sender: "— Dành tặng bạn cả một vườn thương 🌷"
+        };
+
+        const canvas = document.getElementById('gardenCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let flowers = [];
+        let clouds = [];
+        let particles = [];
+        let pointer = { x: -1000, y: -1000 };
+        let hintTimer = 0;
+
+        let collectedSeeds = [false, false, false];
+        let activeSpecialFlower = null;
+        let gardenAwakened = false;
+
+        const palettes = {
+            pink: { base: [244, 132, 158], inner: [219, 75, 112], outer: [253, 205, 217] },
+            peach: { base: [247, 165, 130], inner: [226, 115, 78], outer: [254, 219, 200] },
+            green: { base: [182, 224, 158], inner: [130, 189, 108], outer: [228, 245, 216] },
+            blue: { base: [137, 202, 240], inner: [78, 157, 212], outer: [208, 236, 252] },
+            coral: { base: [242, 111, 130], inner: [204, 61, 84], outer: [252, 189, 198] }
+        };
+
+        const sweetCompliments = [
+            "Hôm nay bạn xinh lắm đó! ✨",
+            "Cười lên nhé, cả khu vườn đang ngắm bạn kìa 🌸",
+            "Một chút dịu dàng gửi đến bạn...",
+            "Chúc bạn một ngày 20/10 ngập tràn niềm vui 💕",
+            "Bạn xứng đáng với mọi điều ngọt ngào nhất!",
+            "Có một đóa hoa vừa nở vì nụ cười của bạn 🌷",
+            "Đừng quên yêu thương bản thân thật nhiều nhé!",
+            "Nắng hôm nay cũng không ấm áp bằng bạn ☀️"
+        ];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+            buildGarden();
+        }
+
+        function createRosePreRender(paletteKey, radius, isBud = false) {
+            const off = document.createElement('canvas');
+            const pad = radius * 1.45;
+            off.width = pad * 2;
+            off.height = pad * 2;
+            const octx = off.getContext('2d');
+            const cx = pad;
+            const cy = pad;
+            const pal = palettes[paletteKey];
+
+            if (isBud) {
+                octx.save();
+                octx.translate(cx, cy);
+                const grad = octx.createLinearGradient(0, -radius, 0, radius);
+                grad.addColorStop(0, `rgb(${pal.outer.join(',')})`);
+                grad.addColorStop(1, `rgb(${pal.inner.join(',')})`);
+                octx.fillStyle = grad;
+                octx.beginPath();
+                octx.ellipse(0, 0, radius * 0.65, radius, 0, 0, Math.PI * 2);
+                octx.fill();
+
+                octx.fillStyle = '#4e9a67';
+                octx.beginPath();
+                octx.moveTo(0, radius);
+                octx.quadraticCurveTo(-radius * 0.9, radius * 0.2, -radius * 0.3, -radius * 0.4);
+                octx.quadraticCurveTo(-radius * 0.1, radius * 0.5, 0, radius);
+                octx.fill();
+
+                octx.beginPath();
+                octx.moveTo(0, radius);
+                octx.quadraticCurveTo(radius * 0.9, radius * 0.2, radius * 0.3, -radius * 0.4);
+                octx.quadraticCurveTo(radius * 0.1, radius * 0.5, 0, radius);
+                octx.fill();
+                octx.restore();
+                return off;
+            }
+
+            const glow = octx.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius * 1.35);
+            glow.addColorStop(0, `rgba(${pal.base.join(',')}, 0.25)`);
+            glow.addColorStop(1, `rgba(${pal.base.join(',')}, 0)`);
+            octx.fillStyle = glow;
+            octx.beginPath();
+            octx.arc(cx, cy, radius * 1.35, 0, Math.PI * 2);
+            octx.fill();
+
+            const rings = 6;
+            for (let r = rings; r >= 1; r--) {
+                const t = r / rings;
+                const ringRadius = radius * (0.22 + 0.78 * t);
+                const petalCount = r === 1 ? 5 : (r === 2 ? 6 : 8);
+
+                const cr = Math.round(pal.inner[0] + (pal.outer[0] - pal.inner[0]) * (t * 0.85));
+                const cg = Math.round(pal.inner[1] + (pal.outer[1] - pal.inner[1]) * (t * 0.85));
+                const cb = Math.round(pal.inner[2] + (pal.outer[2] - pal.inner[2]) * (t * 0.85));
+
+                for (let p = 0; p < petalCount; p++) {
+                    const angle = (p / petalCount) * Math.PI * 2 + (r * 0.42);
+                    octx.save();
+                    octx.translate(cx, cy);
+                    octx.rotate(angle);
+
+                    octx.shadowColor = `rgba(${pal.inner.join(',')}, 0.28)`;
+                    octx.shadowBlur = radius * 0.12;
+                    octx.shadowOffsetY = 1.5;
+
+                    const pGrad = octx.createRadialGradient(0, -ringRadius * 0.35, ringRadius * 0.05, 0, -ringRadius * 0.45, ringRadius * 0.75);
+                    pGrad.addColorStop(0, `rgb(${cr}, ${cg}, ${cb})`);
+                    pGrad.addColorStop(1, `rgb(${Math.min(255, cr + 18)}, ${Math.min(255, cg + 18)}, ${Math.min(255, cb + 18)})`);
+
+                    octx.fillStyle = pGrad;
+                    octx.beginPath();
+                    const pw = ringRadius * 0.56;
+                    const ph = ringRadius * 0.96;
+                    octx.moveTo(0, 0);
+                    octx.bezierCurveTo(-pw, -ph * 0.25, -pw * 0.85, -ph, 0, -ph);
+                    octx.bezierCurveTo(pw * 0.85, -ph, pw, -ph * 0.25, 0, 0);
+                    octx.fill();
+
+                    octx.strokeStyle = `rgba(255,255,255,0.45)`;
+                    octx.lineWidth = 0.9;
+                    octx.stroke();
+                    octx.restore();
+                }
+            }
+
+            octx.fillStyle = `rgb(${pal.inner.join(',')})`;
+            octx.beginPath();
+            octx.arc(cx, cy, radius * 0.12, 0, Math.PI * 2);
+            octx.fill();
+
+            return off;
+        }
+
+        function buildGarden() {
+            flowers = [];
+            clouds = [];
+
+            const isMobile = width < 640;
+
+            const cloudCount = isMobile ? 4 : 6;
+            for (let i = 0; i < cloudCount; i++) {
+                clouds.push({
+                    x: Math.random() * width,
+                    y: height * (0.08 + Math.random() * 0.25),
+                    w: (isMobile ? 120 : 180) + Math.random() * (isMobile ? 120 : 220),
+                    h: 38 + Math.random() * 35,
+                    speed: 0.12 + Math.random() * 0.18,
+                    alpha: 0.45 + Math.random() * 0.35
+                });
+            }
+
+            const paletteKeys = ['pink', 'peach', 'green', 'blue', 'coral'];
+            const totalBackFlowers = isMobile
+                ? Math.max(12, Math.floor(width / 28))
+                : Math.min(34, Math.max(20, Math.floor(width / 38)));
+
+            for (let i = 0; i < totalBackFlowers; i++) {
+                const x = (width * 0.04) + (i / Math.max(1, totalBackFlowers - 1)) * (width * 0.92) + (Math.random() - 0.5) * (isMobile ? 18 : 35);
+                const stemH = height * (0.16 + Math.random() * 0.38);
+                const r = (isMobile ? 13 : 16) + Math.random() * (isMobile ? 12 : 18);
+                const pKey = paletteKeys[Math.floor(Math.random() * paletteKeys.length)];
+                const isBud = Math.random() < 0.25;
+                flowers.push({
+                    id: 'bg-' + i,
+                    layer: 0,
+                    x,
+                    baseY: height + 10,
+                    stemH,
+                    radius: r,
+                    paletteKey: pKey,
+                    sprite: createRosePreRender(pKey, r, isBud),
+                    swayOffset: Math.random() * Math.PI * 2,
+                    swaySpeed: 0.8 + Math.random() * 0.6,
+                    bloomScale: 0.85,
+                    targetScale: 0.85,
+                    alpha: 0.55 + Math.random() * 0.25,
+                    leaves: Math.random() > 0.4 ? 1 : 0,
+                    specialIndex: -1
+                });
+            }
+
+            const totalFrontFlowers = isMobile
+                ? Math.max(9, Math.min(13, Math.floor(width / 42)))
+                : Math.min(20, Math.max(12, Math.floor(width / 68)));
+
+            const specialSlots = [
+                Math.max(1, Math.floor(totalFrontFlowers * 0.18)),
+                Math.floor(totalFrontFlowers * 0.5),
+                Math.min(totalFrontFlowers - 2, Math.floor(totalFrontFlowers * 0.82))
+            ];
+
+            for (let i = 0; i < totalFrontFlowers; i++) {
+                const isHero = i === specialSlots[1];
+                const x = isHero
+                    ? width * 0.5
+                    : (width * 0.08) + (i / Math.max(1, totalFrontFlowers - 1)) * (width * 0.84) + (Math.random() - 0.5) * (isMobile ? 14 : 26);
+
+                const isSpecial = specialSlots.indexOf(i) !== -1;
+                const stemH = isHero
+                    ? height * (isMobile ? 0.52 : 0.55)
+                    : isSpecial
+                        ? height * (isMobile ? 0.39 : 0.42)
+                        : height * (0.18 + Math.random() * 0.32);
+
+                const r = isHero
+                    ? (isMobile ? 46 : Math.min(72, Math.max(54, width * 0.065)))
+                    : isSpecial
+                        ? (isMobile ? 32 : 38)
+                        : ((isMobile ? 22 : 26) + Math.random() * (isMobile ? 10 : 16));
+
+                let pKey = paletteKeys[i % paletteKeys.length];
+                if (isHero) pKey = 'pink';
+
+                const specIdx = specialSlots.indexOf(i);
+
+                flowers.push({
+                    id: 'fg-' + i,
+                    layer: isHero ? 2 : (isSpecial ? 1.5 : 1),
+                    x,
+                    baseY: height + 15,
+                    stemH,
+                    radius: r,
+                    paletteKey: pKey,
+                    sprite: createRosePreRender(pKey, r, false),
+                    swayOffset: Math.random() * Math.PI * 2,
+                    swaySpeed: 1.0 + Math.random() * 0.5,
+                    bloomScale: 1,
+                    targetScale: 1,
+                    alpha: 1,
+                    leaves: isHero ? 3 : 2,
+                    specialIndex: specIdx,
+                    completed: specIdx !== -1 ? collectedSeeds[specIdx] : false
+                });
+            }
+
+            flowers.sort((a, b) => a.layer - b.layer);
+        }
+
+        function drawGarden(timestamp) {
+            const time = timestamp * 0.001;
+
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+            skyGrad.addColorStop(0, '#9bd4e8');
+            skyGrad.addColorStop(0.45, '#d8eef5');
+            skyGrad.addColorStop(0.75, '#f6efe2');
+            skyGrad.addColorStop(1, '#ede3c8');
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            clouds.forEach(c => {
+                c.x += c.speed;
+                if (c.x - c.w > width) c.x = -c.w;
+
+                const cGrad = ctx.createRadialGradient(c.x, c.y, c.h * 0.2, c.x, c.y, c.w * 0.6);
+                cGrad.addColorStop(0, `rgba(255, 255, 255, ${c.alpha})`);
+                cGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = cGrad;
+                ctx.beginPath();
+                ctx.ellipse(c.x, c.y, c.w * 0.6, c.h * 0.6, 0, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            flowers.forEach(f => {
+                f.bloomScale += (f.targetScale - f.bloomScale) * 0.12;
+
+                let wind = Math.sin(time * f.swaySpeed + f.swayOffset) * (10 + f.stemH * 0.025);
+                const headApproxX = f.x + wind;
+                const headApproxY = f.baseY - f.stemH;
+
+                const dx = headApproxX - pointer.x;
+                const dy = headApproxY - pointer.y;
+                const dist = Math.hypot(dx, dy);
+                if (dist < 110) {
+                    wind += (dx / 110) * 14;
+                }
+
+                const headX = f.x + wind;
+                const headY = f.baseY - f.stemH + Math.abs(wind) * 0.08;
+
+                f.currentHeadX = headX;
+                f.currentHeadY = headY;
+
+                ctx.save();
+                ctx.globalAlpha = f.alpha;
+
+                ctx.strokeStyle = f.layer === 0 ? '#6ea87d' : '#357a4c';
+                ctx.lineWidth = f.layer === 2 ? 3.5 : (f.layer === 1 ? 2.2 : 1.3);
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(f.x, f.baseY);
+                const ctrlX = f.x + wind * 0.45;
+                const ctrlY = f.baseY - f.stemH * 0.55;
+                ctx.quadraticCurveTo(ctrlX, ctrlY, headX, headY);
+                ctx.stroke();
+
+                for (let l = 1; l <= f.leaves; l++) {
+                    const lt = l / (f.leaves + 1);
+                    const lx = (1 - lt) * (1 - lt) * f.x + 2 * (1 - lt) * lt * ctrlX + lt * lt * headX;
+                    const ly = (1 - lt) * (1 - lt) * f.baseY + 2 * (1 - lt) * lt * ctrlY + lt * lt * headY;
+                    const dir = l % 2 === 0 ? 1 : -1;
+                    const leafSize = f.layer === 2 ? 22 : 14;
+
+                    ctx.save();
+                    ctx.translate(lx, ly);
+                    ctx.rotate(dir * 0.65 + (wind * 0.008));
+                    const lGrad = ctx.createLinearGradient(0, 0, dir * leafSize, -leafSize);
+                    lGrad.addColorStop(0, '#2a6b3f');
+                    lGrad.addColorStop(1, '#58a86e');
+                    ctx.fillStyle = lGrad;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.quadraticCurveTo(dir * leafSize * 0.9, -leafSize * 0.2, dir * leafSize * 1.2, -leafSize * 0.9);
+                    ctx.quadraticCurveTo(dir * leafSize * 0.2, -leafSize * 0.8, 0, 0);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                if (f.specialIndex !== -1 && !collectedSeeds[f.specialIndex]) {
+                    const pulse = 0.65 + 0.35 * Math.sin(time * 3.5 + f.specialIndex);
+                    const glowRadius = f.radius * (hintTimer > 0 ? 2.1 : 1.55);
+                    const halo = ctx.createRadialGradient(headX, headY, f.radius * 0.2, headX, headY, glowRadius);
+                    halo.addColorStop(0, `rgba(255, 230, 120, ${0.55 * pulse})`);
+                    halo.addColorStop(0.6, `rgba(255, 180, 195, ${0.3 * pulse})`);
+                    halo.addColorStop(1, 'rgba(255, 230, 120, 0)');
+                    ctx.fillStyle = halo;
+                    ctx.beginPath();
+                    ctx.arc(headX, headY, glowRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                const drawSize = f.sprite.width * f.bloomScale;
+                ctx.translate(headX, headY);
+                ctx.rotate(wind * 0.006);
+                ctx.drawImage(f.sprite, -drawSize / 2, -drawSize / 2, drawSize, drawSize);
+                ctx.restore();
+
+                if (f.specialIndex !== -1 && !collectedSeeds[f.specialIndex]) {
+                    for (let k = 0; k < 3; k++) {
+                        const orbAngle = time * 2.2 + k * ((Math.PI * 2) / 3) + f.specialIndex;
+                        const fx = headX + Math.cos(orbAngle) * (f.radius * 1.05);
+                        const fy = headY + Math.sin(orbAngle * 1.3) * (f.radius * 0.85);
+
+                        ctx.save();
+                        ctx.fillStyle = '#fff7ad';
+                        ctx.shadowColor = '#f59e0b';
+                        ctx.shadowBlur = 10;
+                        ctx.beginPath();
+                        ctx.arc(fx, fy, 3.2, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+            });
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx + Math.sin(time * 2 + p.phase) * 0.4;
+                p.y += p.vy;
+                p.rot += p.vRot;
+                p.life -= 0.008;
+
+                if (p.life <= 0 || p.y < -40 || p.y > height + 40) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.globalAlpha = Math.min(1, p.life * 1.5);
+
+                if (p.type === 'heart') {
+                    ctx.fillStyle = p.color;
+                    ctx.font = `${p.size}px sans-serif`;
+                    ctx.fillText('❤', -p.size / 2, p.size / 2);
+                } else {
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, p.size * 0.6, p.size, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            if (hintTimer > 0) hintTimer -= 0.016;
+            requestAnimationFrame(drawGarden);
+        }
+
+        function spawnBurstParticles(x, y, count = 14, includeHearts = false) {
+            const colors = ['#f4849e', '#f7a582', '#b6e09e', '#89caf0', '#ff6b8b'];
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1 + Math.random() * 3.2;
+                particles.push({
+                    x,
+                    y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 1.2,
+                    size: 7 + Math.random() * 7,
+                    rot: Math.random() * Math.PI,
+                    vRot: (Math.random() - 0.5) * 0.08,
+                    phase: Math.random() * Math.PI * 2,
+                    life: 1.0 + Math.random() * 0.4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    type: includeHearts && Math.random() > 0.45 ? 'heart' : 'petal'
+                });
+            }
+        }
+
+        function showComplimentBubble(x, y, text) {
+            const container = document.getElementById('tooltipContainer');
+            const bubble = document.createElement('div');
+            bubble.className = 'flower-tooltip bg-white/90 backdrop-blur-md text-rose-800 text-xs sm:text-sm font-medium px-3.5 py-2 rounded-2xl shadow-lg border border-pink-200 whitespace-nowrap';
+            const clampedX = Math.max(110, Math.min(width - 110, x));
+            const clampedY = Math.max(80, y);
+            bubble.style.left = `${clampedX}px`;
+            bubble.style.top = `${clampedY}px`;
+            bubble.textContent = text;
+            container.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 2600);
+        }
+
+        function handleCanvasTap(clientX, clientY) {
+            pointer.x = clientX;
+            pointer.y = clientY;
+            const isMobile = width < 640;
+
+            for (let i = flowers.length - 1; i >= 0; i--) {
+                const f = flowers[i];
+                if (f.specialIndex !== -1 && !collectedSeeds[f.specialIndex]) {
+                    const dist = Math.hypot(clientX - (f.currentHeadX || f.x), clientY - (f.currentHeadY || (f.baseY - f.stemH)));
+                    const specialHitRadius = Math.max(f.radius * 1.35, isMobile ? 44 : 38);
+                    if (dist <= specialHitRadius) {
+                        f.bloomScale = 1.32;
+                        f.targetScale = 1.08;
+                        playFlowerChime();
+                        spawnBurstParticles(f.currentHeadX, f.currentHeadY, 18, true);
+                        openMiniGame(f.specialIndex, f);
+                        return;
+                    }
+                }
+            }
+
+            for (let i = flowers.length - 1; i >= 0; i--) {
+                const f = flowers[i];
+                const dist = Math.hypot(clientX - (f.currentHeadX || f.x), clientY - (f.currentHeadY || (f.baseY - f.stemH)));
+                const hitRadius = Math.max(f.radius * 1.18, isMobile ? 32 : 26);
+
+                if (dist <= hitRadius) {
+                    f.bloomScale = 1.32;
+                    f.targetScale = 1.08;
+                    playFlowerChime();
+
+                    spawnBurstParticles(f.currentHeadX, f.currentHeadY, 10, false);
+                    const msg = sweetCompliments[Math.floor(Math.random() * sweetCompliments.length)];
+                    showComplimentBubble(f.currentHeadX, f.currentHeadY - f.radius * 0.6, msg);
+                    return;
+                }
+            }
+        }
+
+        canvas.addEventListener('pointermove', (e) => {
+            pointer.x = e.clientX;
+            pointer.y = e.clientY;
+        });
+
+        canvas.addEventListener('pointerdown', (e) => {
+            handleCanvasTap(e.clientX, e.clientY);
+        });
+
+        function triggerHint() {
+            hintTimer = 3.5;
+            playFlowerChime();
+            flowers.forEach(f => {
+                if (f.specialIndex !== -1 && !collectedSeeds[f.specialIndex]) {
+                    spawnBurstParticles(f.currentHeadX || f.x, f.currentHeadY || (f.baseY - f.stemH), 14, true);
+                }
+            });
+            showComplimentBubble(width / 2, height * 0.25, "💡 Hãy tìm những bông hoa có đom đóm vàng bay quanh nhé!");
+        }
+
+        let mgCleanup = null;
+
+        function openMiniGame(index, flowerRef) {
+            activeSpecialFlower = flowerRef;
+            const modal = document.getElementById('miniGameModal');
+            const badge = document.getElementById('mgBadge');
+            const title = document.getElementById('mgTitle');
+            const desc = document.getElementById('mgDesc');
+            const content = document.getElementById('mgContent');
+
+            if (mgCleanup) {
+                mgCleanup();
+                mgCleanup = null;
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if (index === 0) {
+                badge.textContent = "🌸 Bông Hoa Bí Ẩn #1";
+                title.textContent = "Hứng lấy cánh hoa dịu dàng";
+                desc.textContent = "Di chuyển giỏ hoa (hoặc chạm vào cánh hoa đang rơi) để thu thập đủ 5 cánh hoa hồng nhé!";
+                setupPetalCatchGame(content, index);
+            } else if (index === 1) {
+                badge.textContent = "☀️ Bông Hoa Bí Ẩn #2";
+                title.textContent = "Đánh thức nụ hồng mùa xuân";
+                desc.textContent = "Hãy trao đủ giọt sương mai, ánh nắng ấm và tình yêu thương để hoa nở rộ!";
+                setupNurtureFlowerGame(content, index);
+            } else {
+                badge.textContent = "💝 Bông Hoa Bí Ẩn #3";
+                title.textContent = "Thắp sáng 5 Trái Tim Yêu Thương";
+                desc.textContent = "Chạm nhẹ vào 5 bong bóng trái tim đang bay để thắp sáng biểu tượng 20/10 nhé!";
+                setupHeartBubbleGame(content, index);
+            }
+        }
+
+        function closeMiniGame() {
+            if (mgCleanup) {
+                mgCleanup();
+                mgCleanup = null;
+            }
+            const modal = document.getElementById('miniGameModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function setupPetalCatchGame(container, seedIdx) {
+            let caught = 0;
+            const target = 5;
+            let basketX = 50;
+            let isCompleted = false;
+
+            container.innerHTML = `
+                <div class="w-full flex items-center justify-between mb-2 px-1">
+                    <span class="text-xs font-semibold text-rose-700">Giỏ hoa: <b id="petalScore">0/${target}</b> cánh hoa</span>
+                    <span class="text-xs text-rose-500">Kéo giỏ hoặc chạm cánh hoa 👇</span>
+                </div>
+                <div id="petalStage" class="relative w-full h-48 bg-gradient-to-b from-sky-50 via-pink-50/50 to-rose-100/80 rounded-xl overflow-hidden border border-pink-200 touch-none select-none cursor-pointer">
+                    <div id="flowerBasket" class="absolute bottom-1.5 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-100/95 border-2 border-amber-400 shadow-md flex items-center gap-1 text-xl pointer-events-none transition-transform duration-75" style="left: 50%;">
+                        <span>🧺</span>
+                    </div>
+                </div>
+            `;
+
+            const stage = container.querySelector('#petalStage');
+            const scoreEl = container.querySelector('#petalScore');
+            const basketEl = container.querySelector('#flowerBasket');
+
+            function moveBasket(clientX) {
+                const rect = stage.getBoundingClientRect();
+                const relX = ((clientX - rect.left) / rect.width) * 100;
+                basketX = Math.max(12, Math.min(88, relX));
+                basketEl.style.left = `${basketX}%`;
+            }
+
+            stage.addEventListener('pointermove', (e) => moveBasket(e.clientX));
+            stage.addEventListener('pointerdown', (e) => moveBasket(e.clientX));
+            stage.addEventListener('touchmove', (e) => {
+                if (e.touches && e.touches[0]) {
+                    moveBasket(e.touches[0].clientX);
+                }
+            }, { passive: true });
+
+            function collectOnePetal(petalEl, fallTimer) {
+                if (isCompleted || petalEl.dataset.collected) return;
+                petalEl.dataset.collected = 'true';
+                clearInterval(fallTimer);
+                playFlowerChime();
+                caught++;
+                scoreEl.textContent = `${caught}/${target}`;
+                petalEl.textContent = '✨';
+                petalEl.style.transform = 'scale(1.35)';
+                basketEl.classList.add('scale-125');
+                setTimeout(() => basketEl.classList.remove('scale-125'), 160);
+                setTimeout(() => petalEl.remove(), 180);
+
+                if (caught >= target) {
+                    isCompleted = true;
+                    clearInterval(spawnInterval);
+                    completeSeedChallenge(seedIdx);
+                }
+            }
+
+            const activeFallTimers = [];
+            const spawnInterval = setInterval(() => {
+                if (isCompleted) return;
+                const petal = document.createElement('button');
+                petal.type = 'button';
+                const emojis = ['🌸', '🌷', '🌺', '💮'];
+                petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                petal.className = 'absolute -translate-x-1/2 text-2xl sm:text-3xl transition-transform active:scale-125 cursor-pointer select-none p-2';
+                const leftPct = 14 + Math.random() * 72;
+                petal.style.left = `${leftPct}%`;
+                petal.style.top = `-36px`;
+
+                stage.appendChild(petal);
+
+                let posY = -36;
+                const speed = 1.35 + Math.random() * 0.95;
+                const fallTimer = setInterval(() => {
+                    if (isCompleted) {
+                        clearInterval(fallTimer);
+                        return;
+                    }
+                    posY += speed;
+                    petal.style.top = `${posY}px`;
+
+                    const stageH = stage.clientHeight || 192;
+                    if (posY >= stageH - 52 && posY <= stageH - 12) {
+                        if (Math.abs(leftPct - basketX) < 18) {
+                            collectOnePetal(petal, fallTimer);
+                            return;
+                        }
+                    }
+
+                    if (posY > stageH + 10) {
+                        clearInterval(fallTimer);
+                        petal.remove();
+                    }
+                }, 20);
+                activeFallTimers.push(fallTimer);
+
+                petal.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    moveBasket(e.clientX);
+                    collectOnePetal(petal, fallTimer);
+                });
+            }, 560);
+
+            mgCleanup = () => {
+                isCompleted = true;
+                clearInterval(spawnInterval);
+                activeFallTimers.forEach(t => clearInterval(t));
+            };
+        }
+
+        function setupNurtureFlowerGame(container, seedIdx) {
+            let step = 0;
+            const icons = ['🌱', '🌿', '🌷', '🌹'];
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-2">
+                    <div id="bloomStageIcon" class="text-6xl mb-3 transition-transform duration-300 transform scale-100">🌱</div>
+                    <p id="bloomStatus" class="text-xs sm:text-sm text-rose-700 font-medium mb-4 text-center">
+                        Bấm lần lượt vào 3 nguồn năng lượng bên dưới nhé:
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <button id="btnDew" class="px-3.5 py-2 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-800 text-xs sm:text-sm font-semibold border border-sky-200 transition flex items-center gap-1 shadow-sm cursor-pointer">
+                            💧 Tưới sương
+                        </button>
+                        <button id="btnSun" class="px-3.5 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs sm:text-sm font-semibold border border-amber-200 transition flex items-center gap-1 shadow-sm cursor-pointer">
+                            ☀️ Tắm nắng
+                        </button>
+                        <button id="btnLove" class="px-3.5 py-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs sm:text-sm font-semibold border border-rose-200 transition flex items-center gap-1 shadow-sm cursor-pointer">
+                            💖 Yêu thương
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const iconEl = container.querySelector('#bloomStageIcon');
+            const statusEl = container.querySelector('#bloomStatus');
+
+            function triggerCare(btn, message) {
+                if (btn.disabled) return;
+                btn.disabled = true;
+                btn.classList.add('opacity-40', 'scale-95');
+                step++;
+                playFlowerChime();
+                iconEl.textContent = icons[step];
+                iconEl.classList.add('scale-125');
+                setTimeout(() => iconEl.classList.remove('scale-125'), 250);
+                statusEl.textContent = message;
+
+                if (step >= 3) {
+                    setTimeout(() => completeSeedChallenge(seedIdx), 450);
+                }
+            }
+
+            container.querySelector('#btnDew').onclick = (e) => triggerCare(e.currentTarget, "Mầm nhỏ đã uống đủ sương mai mát lành! 💧");
+            container.querySelector('#btnSun').onclick = (e) => triggerCare(e.currentTarget, "Ánh nắng ấm áp làm nụ hoa hé nở! ☀️");
+            container.querySelector('#btnLove').onclick = (e) => triggerCare(e.currentTarget, "Đóa hồng đã nở rộ rực rỡ vì bạn! 🌹");
+        }
+
+        function setupHeartBubbleGame(container, seedIdx) {
+            let litCount = 0;
+            const totalHearts = 5;
+
+            container.innerHTML = `
+                <div class="w-full flex flex-col items-center">
+                    <div class="flex items-center gap-2 mb-3 bg-white/90 px-4 py-1.5 rounded-full border border-rose-200 shadow-sm">
+                        <span class="text-xs font-bold text-rose-600 mr-1">20/10:</span>
+                        <div class="flex items-center gap-1.5" id="heartProgressRow">
+                            <span class="heart-slot text-lg opacity-30 transition-all duration-300">💖</span>
+                            <span class="heart-slot text-lg opacity-30 transition-all duration-300">💖</span>
+                            <span class="heart-slot text-lg opacity-30 transition-all duration-300">💖</span>
+                            <span class="heart-slot text-lg opacity-30 transition-all duration-300">💖</span>
+                            <span class="heart-slot text-lg opacity-30 transition-all duration-300">💖</span>
+                        </div>
+                    </div>
+
+                    <div id="bubbleArena" class="relative w-full h-44 bg-gradient-to-b from-rose-100/60 via-pink-50/70 to-amber-50/60 rounded-xl border border-rose-200 overflow-hidden touch-none select-none">
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25">
+                            <span class="text-6xl">🌹</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const arena = container.querySelector('#bubbleArena');
+            const slots = container.querySelectorAll('.heart-slot');
+            const bubbleData = [
+                { emoji: '💖', x: 18, y: 28, dx: 0.35, dy: 0.25 },
+                { emoji: '💝', x: 75, y: 24, dx: -0.3, dy: 0.28 },
+                { emoji: '🌸', x: 48, y: 52, dx: 0.28, dy: -0.32 },
+                { emoji: '💗', x: 24, y: 72, dx: 0.32, dy: -0.25 },
+                { emoji: '🌷', x: 78, y: 68, dx: -0.35, dy: -0.26 }
+            ];
+
+            const bubbleNodes = [];
+
+            bubbleData.forEach((b) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'absolute -translate-x-1/2 -translate-y-1/2 w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-white/85 hover:bg-white border-2 border-pink-300 shadow-lg shadow-rose-400/20 flex items-center justify-center text-2xl transition-transform active:scale-125 cursor-pointer';
+                btn.style.width = '52px';
+                btn.style.height = '52px';
+                btn.style.left = `${b.x}%`;
+                btn.style.top = `${b.y}%`;
+                btn.innerHTML = `<span>${b.emoji}</span>`;
+
+                btn.addEventListener('pointerdown', (e) => {
+                    e.stopPropagation();
+                    if (b.popped) return;
+                    b.popped = true;
+                    playFlowerChime();
+
+                    btn.innerHTML = '✨';
+                    btn.classList.add('scale-125', 'bg-rose-100', 'border-amber-300');
+                    setTimeout(() => btn.remove(), 220);
+
+                    if (slots[litCount]) {
+                        slots[litCount].classList.remove('opacity-30');
+                        slots[litCount].classList.add('scale-125');
+                        setTimeout(() => slots[litCount]?.classList.remove('scale-125'), 250);
+                    }
+
+                    litCount++;
+                    if (litCount >= totalHearts) {
+                        clearInterval(floatTimer);
+                        setTimeout(() => completeSeedChallenge(seedIdx), 350);
+                    }
+                });
+
+                arena.appendChild(btn);
+                bubbleNodes.push({ el: btn, data: b });
+            });
+
+            const floatTimer = setInterval(() => {
+                bubbleNodes.forEach(({ el, data }) => {
+                    if (data.popped) return;
+                    data.x += data.dx;
+                    data.y += data.dy;
+                    if (data.x < 14 || data.x > 86) data.dx *= -1;
+                    if (data.y < 18 || data.y > 82) data.dy *= -1;
+                    el.style.left = `${data.x}%`;
+                    el.style.top = `${data.y}%`;
+                });
+            }, 30);
+
+            mgCleanup = () => clearInterval(floatTimer);
+        }
+
+        function completeSeedChallenge(seedIdx) {
+            collectedSeeds[seedIdx] = true;
+            if (activeSpecialFlower) {
+                activeSpecialFlower.completed = true;
+                activeSpecialFlower.targetScale = 1.25;
+                spawnBurstParticles(activeSpecialFlower.currentHeadX, activeSpecialFlower.currentHeadY, 28, true);
+            }
+
+            playSuccessChord();
+            updateSeedProgressUI();
+
+            const content = document.getElementById('mgContent');
+            content.innerHTML = `
+                <div class="text-center py-4 animate-[seedPop_0.4s_ease-out]">
+                    <div class="text-5xl mb-2">🌷✨</div>
+                    <h4 class="font-bold text-rose-600 text-lg">Tuyệt vời! Bạn nhận được 1 Hạt Giống Thương!</h4>
+                    <p class="text-xs text-slate-500 mt-1">Đóa hoa trong vườn đã thức giấc...</p>
+                </div>
+            `;
+
+            setTimeout(() => {
+                closeMiniGame();
+                checkAllSeedsCollected();
+            }, 1100);
+        }
+
+        function updateSeedProgressUI() {
+            const count = collectedSeeds.filter(Boolean).length;
+            document.getElementById('seedCountText').textContent = `${count}/3`;
+
+            collectedSeeds.forEach((done, idx) => {
+                const slot = document.getElementById(`seed-${idx}`);
+                if (done) {
+                    slot.className = "w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-rose-500 border border-rose-600 flex items-center justify-center text-xs text-white shadow-sm seed-collected";
+                    slot.textContent = "🌸";
+                }
+            });
+        }
+
+        function checkAllSeedsCollected() {
+            if (collectedSeeds.every(Boolean) && !gardenAwakened) {
+                gardenAwakened = true;
+                playCelebrationFanfare();
+
+                flowers.forEach(f => {
+                    f.targetScale = f.layer === 2 ? 1.25 : 1.15;
+                });
+
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => {
+                        spawnBurstParticles(width * (0.2 + Math.random() * 0.6), height * (0.3 + Math.random() * 0.4), 22, true);
+                    }, i * 180);
+                }
+
+                const questPill = document.getElementById('questPill');
+                questPill.classList.add('hover:scale-105', 'active:scale-95', 'ring-2', 'ring-rose-400');
+                questPill.title = "Bấm để mở lại bức thư 20/10";
+
+                document.getElementById('subInstructionContainer').innerHTML = `
+                    <button type="button" onclick="showEnvelopeOverlay()" class="mt-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-white text-rose-700 font-semibold text-xs sm:text-sm shadow-md border border-rose-200 transition transform hover:scale-105 active:scale-95 cursor-pointer">
+                        <span class="inline-block w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                        <span>Cả khu vườn đã nở rộ! Bấm vào đây để mở bức thư 20/10 💌</span>
+                    </button>
+                `;
+                document.getElementById('bottomCaption').textContent = "Cả khu vườn đã thức giấc, gửi trọn yêu thương đến bạn...";
+
+                setTimeout(() => {
+                    showEnvelopeOverlay();
+                }, 1400);
+            }
+        }
+
+        function handleQuestPillClick() {
+            if (collectedSeeds.every(Boolean)) {
+                showEnvelopeOverlay();
+            } else {
+                triggerHint();
+            }
+        }
+
+        let typewriterTimer = null;
+
+        function showEnvelopeOverlay() {
+            const overlay = document.getElementById('envelopeOverlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            playSuccessChord();
+        }
+
+        function hideEnvelopeOverlay() {
+            const overlay = document.getElementById('envelopeOverlay');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+        }
+
+        function openFullLetter() {
+            const envEl = document.getElementById('theEnvelope');
+            envEl.classList.add('card-pulled');
+            playFlowerChime();
+
+            setTimeout(() => {
+                document.getElementById('envelopeStage').classList.add('hidden');
+                const fullCard = document.getElementById('fullLetterCard');
+                fullCard.classList.remove('hidden');
+                startTypewriterLetter();
+            }, 420);
+        }
+
+        function backToEnvelope() {
+            if (typewriterTimer) clearInterval(typewriterTimer);
+            document.getElementById('fullLetterCard').classList.add('hidden');
+            const stage = document.getElementById('envelopeStage');
+            stage.classList.remove('hidden');
+            document.getElementById('theEnvelope').classList.remove('card-pulled');
+        }
+
+        function startTypewriterLetter() {
+            if (typewriterTimer) clearInterval(typewriterTimer);
+
+            document.getElementById('letterRecipientDisplay').textContent = letterData.recipient;
+            document.getElementById('letterSenderDisplay').textContent = letterData.sender;
+
+            const bodyEl = document.getElementById('letterBodyDisplay');
+            bodyEl.textContent = '';
+            const fullText = letterData.body;
+            let idx = 0;
+
+            typewriterTimer = setInterval(() => {
+                if (idx < fullText.length) {
+                    bodyEl.textContent += fullText.charAt(idx);
+                    idx++;
+                    if (idx % 5 === 0) {
+                        playNote(659.25 + (idx % 3) * 60, 0.08, 'sine', 0.02);
+                    }
+                } else {
+                    clearInterval(typewriterTimer);
+                }
+            }, 28);
+        }
+
+        function replayTypewriter() {
+            playFlowerChime();
+            startTypewriterLetter();
+        }
+
+        function celebrateFromLetter() {
+            playCelebrationFanfare();
+            const card = document.getElementById('fullLetterCard');
+            card.classList.add('scale-[1.02]');
+            setTimeout(() => card.classList.remove('scale-[1.02]'), 250);
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    spawnBurstParticles(width * (0.25 + Math.random() * 0.5), height * (0.25 + Math.random() * 0.4), 20, true);
+                }, i * 140);
+            }
+        }
+
+        window.onload = function () {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            requestAnimationFrame(drawGarden);
+        };
+    </script>
+</body>
+</html>
